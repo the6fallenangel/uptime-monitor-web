@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { Monitor } from "@/lib/types";
+import type { Monitor } from "@/lib/types";
 
 export function getMonitors() {
   return api.get<Monitor[]>("/monitors");
