@@ -5,7 +5,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { MockDashboardPreview } from "@/components/mock-dashboard-preview";
 import { cn } from "@/lib/utils";
 
-export default async function HomePage() {
+export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="flex items-center justify-between px-6 py-4">
