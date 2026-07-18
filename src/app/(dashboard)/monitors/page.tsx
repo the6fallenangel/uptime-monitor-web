@@ -1,5 +1,6 @@
 "use client";
 
+import { CreateMonitorDialog } from "@/components/monitors/create-monitor-dialog";
 import { MonitorCard } from "@/components/monitors/monitor-card";
 import { MonitorCardSkeleton } from "@/components/monitors/monitor-card-skeleton";
 import { useMonitors } from "@/hooks/use-monitors";
@@ -8,18 +9,17 @@ import { useEffect } from "react";
 
 export default function MonitorsPage() {
   const { data: monitors, isLoading, isError } = useMonitors();
-  useEffect(() => {
-    console.log(monitors, isLoading);
-  }, [isLoading, monitors]);
+
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex gap-2 items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Monitors</h1>
           <p className="text-muted-foreground mt-1">
             Track uptime for your websites and APIs.
           </p>
         </div>
+        <CreateMonitorDialog />
       </div>
 
       {isLoading && (
