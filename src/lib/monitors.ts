@@ -1,8 +1,9 @@
 import { api } from "@/lib/api";
 import type { Monitor } from "@/lib/types";
 
-export function getMonitors() {
-  return api.get<Monitor[]>("/monitors");
+export async function getMonitors() {
+  const monitors = await api.get<Monitor[] | null>("/monitors");
+  return monitors ?? [];
 }
 
 export function getMonitor(id: number) {
