@@ -16,13 +16,17 @@ export function ChecksTable({ checks }: { checks: Check[] }) {
   if (checks.length === 0) return null;
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border overflow-x-auto w-full">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Status</TableHead>
-            <TableHead>Status code</TableHead>
-            <TableHead>Response time</TableHead>
+            <TableHead>
+              Status <span className="hidden sm:flex">code</span>
+            </TableHead>
+            <TableHead>
+              Response <span className="hidden sm:flex">time</span>
+            </TableHead>
             <TableHead>Checked</TableHead>
           </TableRow>
         </TableHeader>
