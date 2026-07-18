@@ -48,17 +48,21 @@ export function UptimeTimeline({ checks }: { checks: Check[] }) {
                   )}
                 />
                 <TooltipContent>
-                  <p className="font-medium">
-                    {check.status === "up" ? "Up" : "Down"}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatRelativeTime(check.checkedAt)}
-                  </p>
-                  {check.error && (
-                    <p className="text-xs text-muted-foreground">
-                      {check.error}
-                    </p>
-                  )}
+                  <div className="flex flex-col gap-1">
+                    <div className="flex gap-2">
+                      <p className="font-medium">
+                        {check.status === "up" ? "Up" : "Down"}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatRelativeTime(check.checkedAt)}
+                      </p>
+                    </div>
+                    {check.error && (
+                      <p className="text-xs text-muted-foreground">
+                        {check.error}
+                      </p>
+                    )}
+                  </div>
                 </TooltipContent>
               </Tooltip>
             ))}

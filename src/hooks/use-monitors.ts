@@ -6,12 +6,7 @@ import {
   getMonitors,
 } from "@/lib/monitors";
 import type { Monitor } from "@/lib/types";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useMonitors() {
   return useQuery({

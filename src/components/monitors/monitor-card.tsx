@@ -20,7 +20,12 @@ export function MonitorCard({ monitor }: { monitor: Monitor }) {
   const deleteMonitor = useDeleteMonitor();
 
   return (
-    <Card className="transition-shadow hover:shadow-md">
+    <Card className="transition-shadow hover:shadow-md relative">
+      <Link
+        href={`/monitors/${monitor.id}`}
+        className="absolute inset-0 z-0"
+        aria-label={`View ${monitor.name}`}
+      />
       <CardHeader className="flex flex-row items-start justify-between space-y-0">
         <div className="min-w-0">
           <Link
@@ -40,7 +45,7 @@ export function MonitorCard({ monitor }: { monitor: Monitor }) {
                 {...props}
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 shrink-0"
+                className="h-8 w-8 shrink-0 relative z-10"
               >
                 <MoreVertical className="h-4 w-4" />
               </Button>
@@ -58,7 +63,7 @@ export function MonitorCard({ monitor }: { monitor: Monitor }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>
-      <CardContent className="flex items-center justify-between">
+      <CardContent className="flex relative z-10 items-center justify-between">
         <Badge variant="outline" className="font-mono text-xs">
           every {formatInterval(monitor.interval)}
         </Badge>

@@ -7,6 +7,7 @@ import { UptimeTimeline } from "@/components/monitors/uptime-timeline";
 import { ChecksTable } from "@/components/monitors/checks-table";
 import { Badge } from "@/components/ui/badge";
 import { formatInterval } from "@/lib/format";
+import { MonitorBreadcrumb } from "@/components/monitors/monitor-breadcrumb";
 
 export default function MonitorDetailPage() {
   const params = useParams<{ id: string }>();
@@ -25,6 +26,7 @@ export default function MonitorDetailPage() {
 
   return (
     <div className="space-y-6">
+      <MonitorBreadcrumb monitorName={monitor.name} />
       <div>
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-semibold">{monitor.name}</h1>
