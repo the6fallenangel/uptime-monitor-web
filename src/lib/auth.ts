@@ -20,3 +20,14 @@ export function logout() {
 export function getMe() {
   return api.get<User>("/me");
 }
+
+export function updateName(name: string) {
+  return api.patch<User>("/me/name", { name });
+}
+
+export function changePassword(data: {
+  currentPassword: string;
+  newPassword: string;
+}) {
+  return api.post<void>("/me/password", data);
+}

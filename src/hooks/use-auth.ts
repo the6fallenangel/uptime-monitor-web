@@ -1,12 +1,21 @@
-import { getMe, login, logout, signup } from "@/lib/auth";
+import {
+  changePassword,
+  getMe,
+  login,
+  logout,
+  signup,
+  updateName,
+} from "@/lib/auth";
+import type { User } from "@/lib/types";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-export function useMe() {
+export function useMe(options?: { initialData?: User }) {
   return useQuery({
     queryKey: ["me"],
     queryFn: getMe,
     retry: false,
+    initialData: options?.initialData,
   });
 }
 
@@ -47,5 +56,22 @@ export function useLogout() {
       queryClient.clear();
       router.push("login");
     },
+  });
+}
+
+export function useUpdateName() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateName,
+    onSuccess: (user) => {
+      queryClient.setQueryData(["me"], user);
+    },
+  });
+}
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: changePassword,
   });
 }
