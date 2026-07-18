@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryProvider } from "@/components/query-provider";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -39,7 +41,13 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <>
+                {children}
+                <Analytics />
+                <SpeedInsights />
+              </>
+            </QueryProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>
