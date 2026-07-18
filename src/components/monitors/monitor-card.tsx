@@ -1,5 +1,6 @@
 "use client";
 
+import { StatusBadge } from "@/components/monitors/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -61,6 +62,7 @@ export function MonitorCard({ monitor }: { monitor: Monitor }) {
         <Badge variant="outline" className="font-mono text-xs">
           every {formatInterval(monitor.interval)}
         </Badge>
+        <StatusBadge monitorId={monitor.id} />
       </CardContent>
     </Card>
   );

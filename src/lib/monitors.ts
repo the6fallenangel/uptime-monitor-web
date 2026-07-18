@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import type { Monitor } from "@/lib/types";
+import type { Check, Monitor } from "@/lib/types";
 
 export async function getMonitors() {
   const monitors = await api.get<Monitor[] | null>("/monitors");
@@ -22,6 +22,6 @@ export function deleteMonitor(id: number) {
   return api.delete<void>(`/monitors/${id}`);
 }
 
-export function getChecks(monitorId: number, limit: 50) {
-  return api.get<Monitor[]>(`/monitors/${monitorId}/checks?limit=${limit}`);
+export function getChecks(monitorId: number, limit = 50) {
+  return api.get<Check[]>(`/monitors/${monitorId}/checks?limit=${limit}`);
 }

@@ -1,4 +1,9 @@
-import { createMonitor, deleteMonitor, getMonitors } from "@/lib/monitors";
+import {
+  createMonitor,
+  deleteMonitor,
+  getChecks,
+  getMonitors,
+} from "@/lib/monitors";
 import type { Monitor } from "@/lib/types";
 import {
   QueryClient,
@@ -37,5 +42,14 @@ export function useDeleteMonitor() {
         old ? old.filter((m) => m.id !== deletedId) : [],
       );
     },
+  });
+}
+
+export function useLatestCheck(monitorId: number) {
+  return useQuery({
+    queryKey: ["checks", monitorId, "latest"],
+    queryFn: () => getChecks(monitorId, 1),
+    select: (checks) => checks[0] ?? null,
+    refetchInterval: 30_000,
   });
 }

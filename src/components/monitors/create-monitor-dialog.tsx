@@ -124,6 +124,7 @@ export function CreateMonitorDialog() {
                     </FieldLabel>
                     <Input
                       {...field}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
                       id="monitor-interval-value"
                       type="number"
                       min={1}
