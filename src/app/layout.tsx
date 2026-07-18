@@ -18,8 +18,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Uptime Monitor",
-  description: "Monitor your websites and APIs in real time.",
+  title: {
+    default: "Uptime Monitor",
+    template: "%s · Uptime Monitor",
+  },
+  description:
+    "Monitor your websites and APIs with concurrent checks, live status, and instant alerts.",
+  openGraph: {
+    title: "Uptime Monitor",
+    description:
+      "Monitor your websites and APIs with concurrent checks, live status, and instant alerts.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

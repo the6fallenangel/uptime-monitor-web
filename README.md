@@ -4,6 +4,8 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
 ![CI](https://github.com/the6fallenangel/uptime-monitor-web/actions/workflows/ci.yml/badge.svg)
 
+![Uptime Monitor](./src/app/opengraph-image.png)
+
 The Next.js frontend for [uptime-monitor](https://github.com/the6fallenangel/uptime-monitor) — a concurrent, multi-user uptime monitoring service written in Go.
 
 Users sign up, add websites/APIs to monitor at their own configured intervals, and get a live dashboard showing status, response times, and uptime history for each one.
