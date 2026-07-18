@@ -28,16 +28,19 @@ export function AppSidebar() {
       <SidebarHeader className="px-4 py-5">
         <div className="flex items-center gap-2 font-semibold">
           <Monitor className="size-5" />
-          <span className="group-data-[collapsible=icon]:hidden truncate">
+          <Link
+            href="/"
+            className="group-data-[collapsible=icon]:hidden truncate"
+          >
             Uptime Monitor
-          </span>
+          </Link>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-2">
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton
