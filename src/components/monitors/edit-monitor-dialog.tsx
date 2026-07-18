@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
-import { useCreateMonitor } from "@/hooks/use-monitors";
-import { createMonitorSchema, type CreateMonitorInput } from "@/lib/validation";
+import { Pencil } from "lucide-react";
+import { useUpdateMonitor } from "@/hooks/use-monitors";
+import { editMonitorSchema, type EditMonitorInput } from "@/lib/validation";
 import { ApiError } from "@/lib/api";
+import type { Monitor } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,50 +28,53 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import { nanosecondsToValueUnit } from "@/lib/format";
 
-export function CreateMonitorDialog() {
-  const [open, setOpen] = useState(false);
-  const createMonitor = useCreateMonitor();
+export function EditMonitorDialog({
+  monitor,
+  open,
+  onOpenChange,
+}: {
+  monitor: Monitor;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const updateMonitor = useUpdateMonitor();
+  const initial = nanosecondsToValueUnit(monitor.interval);
 
-  const form = useForm<CreateMonitorInput>({
-    resolver: zodResolver(createMonitorSchema),
-    defaultValues: { name: "", url: "", intervalValue: 30, intervalUnit: "s" },
+  const form = useForm<EditMonitorInput>({
+    resolver: zodResolver(editMonitorSchema),
+    defaultValues: {
+      name: monitor.name,
+      intervalValue: initial.value,
+      intervalUnit: initial.unit,
+    },
   });
 
-  function onSubmit(values: CreateMonitorInput) {
-    createMonitor.mutate(
+  function onSubmit(values: EditMonitorInput) {
+    updateMonitor.mutate(
       {
-        name: values.name,
-        url: values.url,
-        interval: `${values.intervalValue}${values.intervalUnit}`,
+        id: monitor.id,
+        data: {
+          name: values.name,
+          interval: `${values.intervalValue}${values.intervalUnit}`,
+        },
       },
       {
-        onSuccess: () => {
-          setOpen(false);
-          form.reset();
-        },
+        onSuccess: () => onOpenChange(false),
       },
     );
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        render={(props) => (
-          <Button {...props}>
-            <Plus className="size-4" />
-            Add monitor
-          </Button>
-        )}
-      />
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a monitor</DialogTitle>
+          <DialogTitle>Edit monitor</DialogTitle>
           <DialogDescription>
-            We&apos;ll check this URL at the interval you set and alert you on
-            status changes.
+            Update the name or check interval. The URL can&apos;t be changed
+            after creation.
           </DialogDescription>
         </DialogHeader>
 
@@ -81,29 +85,10 @@ export function CreateMonitorDialog() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="monitor-name">Name</FieldLabel>
+                  <FieldLabel htmlFor="edit-monitor-name">Name</FieldLabel>
                   <Input
                     {...field}
-                    id="monitor-name"
-                    placeholder="My API"
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="url"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="monitor-url">URL</FieldLabel>
-                  <Input
-                    {...field}
-                    id="monitor-url"
-                    placeholder="https://example.com"
+                    id="edit-monitor-name"
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
@@ -119,13 +104,13 @@ export function CreateMonitorDialog() {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid} className="flex-1">
-                    <FieldLabel htmlFor="monitor-interval-value">
+                    <FieldLabel htmlFor="edit-monitor-interval-value">
                       Check every
                     </FieldLabel>
                     <Input
                       {...field}
                       onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                      id="monitor-interval-value"
+                      id="edit-monitor-interval-value"
                       type="number"
                       min={1}
                       aria-invalid={fieldState.invalid}
@@ -141,7 +126,7 @@ export function CreateMonitorDialog() {
                 control={form.control}
                 render={({ field }) => (
                   <Field className="flex-1">
-                    <FieldLabel htmlFor="monitor-interval-unit">
+                    <FieldLabel htmlFor="edit-monitor-interval-unit">
                       Unit
                     </FieldLabel>
                     <Select
@@ -149,7 +134,7 @@ export function CreateMonitorDialog() {
                       value={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger id="monitor-interval-unit">
+                      <SelectTrigger id="edit-monitor-interval-unit">
                         <SelectValue>
                           {(value) => {
                             const labels = {
@@ -173,10 +158,10 @@ export function CreateMonitorDialog() {
               />
             </div>
 
-            {createMonitor.isError && (
+            {updateMonitor.isError && (
               <p className="text-sm text-destructive">
-                {createMonitor.error instanceof ApiError
-                  ? createMonitor.error.message
+                {updateMonitor.error instanceof ApiError
+                  ? updateMonitor.error.message
                   : "Something went wrong."}
               </p>
             )}
@@ -184,9 +169,9 @@ export function CreateMonitorDialog() {
             <Button
               type="submit"
               className="w-full"
-              disabled={createMonitor.isPending}
+              disabled={updateMonitor.isPending}
             >
-              {createMonitor.isPending ? "Adding..." : "Add monitor"}
+              {updateMonitor.isPending ? "Saving..." : "Save changes"}
             </Button>
           </FieldGroup>
         </form>

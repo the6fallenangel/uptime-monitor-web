@@ -17,7 +17,13 @@ export const createMonitorSchema = z.object({
   intervalValue: z.number().int().positive("Must be a positive number"),
   intervalUnit: z.enum(["s", "m", "h"]),
 });
+export const editMonitorSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  intervalValue: z.number().int().positive("Must be a positive number"),
+  intervalUnit: z.enum(["s", "m", "h"]),
+});
 
 export type LoginInput = z.infer<typeof loginSchema>;
 export type SignupInput = z.infer<typeof signupSchema>;
 export type CreateMonitorInput = z.infer<typeof createMonitorSchema>;
+export type EditMonitorInput = z.infer<typeof editMonitorSchema>;

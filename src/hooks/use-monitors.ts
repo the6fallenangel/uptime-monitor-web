@@ -4,6 +4,7 @@ import {
   getChecks,
   getMonitor,
   getMonitors,
+  updateMonitor,
 } from "@/lib/monitors";
 import type { Monitor } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,6 +25,26 @@ export function useCreateMonitor() {
       queryClient.setQueryData<Monitor[]>(["monitors"], (old) =>
         old ? [...old, newMonitor] : [newMonitor],
       );
+    },
+  });
+}
+
+export function useUpdateMonitor() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: { name: string; interval: string };
+    }) => updateMonitor(id, data),
+    onSuccess: (updated) => {
+      queryClient.setQueryData<Monitor[]>(["monitors"], (old) =>
+        old ? old.map((m) => (m.id === updated.id ? updated : m)) : [updated],
+      );
+      queryClient.setQueryData(["monitors", updated.id], updated);
     },
   });
 }

@@ -18,6 +18,16 @@ export function createMonitor(data: {
   return api.post<Monitor>("/monitors", data);
 }
 
+export function updateMonitor(
+  id: number,
+  data: {
+    name: string;
+    interval: string;
+  },
+) {
+  return api.patch<Monitor>(`/monitors/${id}`, data);
+}
+
 export function deleteMonitor(id: number) {
   return api.delete<void>(`/monitors/${id}`);
 }

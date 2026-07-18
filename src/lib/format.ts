@@ -11,6 +11,16 @@ export function formatResponseTime(nanoseconds: number): string {
   return `${Math.round(ms)}ms`;
 }
 
+export function nanosecondsToValueUnit(ns: number): {
+  value: number;
+  unit: "s" | "m" | "h";
+} {
+  const seconds = ns / 1_000_000_000;
+  if (seconds % 3600 === 0) return { value: seconds / 3600, unit: "h" };
+  if (seconds % 60 === 0) return { value: seconds / 60, unit: "m" };
+  return { value: seconds, unit: "s" };
+}
+
 export function formatRelativeTime(isoString: string): string {
   const diffMs = Date.now() - new Date(isoString).getTime();
   const diffSec = Math.floor(diffMs / 1000);
