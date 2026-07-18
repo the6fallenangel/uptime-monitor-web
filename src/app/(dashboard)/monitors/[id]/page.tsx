@@ -8,13 +8,19 @@ import { ChecksTable } from "@/components/monitors/checks-table";
 import { Badge } from "@/components/ui/badge";
 import { formatInterval } from "@/lib/format";
 import { MonitorBreadcrumb } from "@/components/monitors/monitor-breadcrumb";
+import { useState } from "react";
+import { ChecksPagination } from "@/components/monitors/checks-pagination";
 
 export default function MonitorDetailPage() {
   const params = useParams<{ id: string }>();
   const monitorId = Number(params.id);
+  const [page, setPage] = useState(1);
 
   const { data: monitor, isLoading: monitorLoading } = useMonitor(monitorId);
-  const { data: checks, isLoading: checksLoading } = useChecks(monitorId, 50);
+  const { data: checksData, isLoading: checksLoading } = useChecks(
+    monitorId,
+    page,
+  );
 
   if (monitorLoading || checksLoading) {
     return <MonitorDetailSkeleton />;
@@ -37,9 +43,17 @@ export default function MonitorDetailPage() {
         <p className="text-muted-foreground mt-1">{monitor.url}</p>
       </div>
 
-      <UptimeTimeline checks={checks ?? []} />
+      <UptimeTimeline checks={checksData?.checks ?? []} />
 
-      <ChecksTable checks={checks ?? []} />
+      <ChecksTable checks={checksData?.checks ?? []} />
+
+      {checksData && (
+        <ChecksPagination
+          page={checksData.page}
+          totalPages={checksData.totalPages}
+          onPageChange={setPage}
+        />
+      )}
     </div>
   );
 }

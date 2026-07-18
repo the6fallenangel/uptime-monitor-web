@@ -65,8 +65,8 @@ export function useDeleteMonitor() {
 export function useLatestCheck(monitorId: number) {
   return useQuery({
     queryKey: ["checks", monitorId, "latest"],
-    queryFn: () => getChecks(monitorId, 1),
-    select: (checks) => checks[0] ?? null,
+    queryFn: () => getChecks(monitorId, 1, 1),
+    select: (checks) => checks.checks[0] ?? null,
     refetchInterval: 15_000,
   });
 }
@@ -78,10 +78,11 @@ export function useMonitor(id: number) {
   });
 }
 
-export function useChecks(monitorId: number, limit = 50) {
+export function useChecks(monitorId: number, page = 1, limit = 20) {
   return useQuery({
-    queryKey: ["checks", monitorId, limit],
-    queryFn: () => getChecks(monitorId, limit),
+    queryKey: ["checks", monitorId, page, limit],
+    queryFn: () => getChecks(monitorId, page, limit),
     refetchInterval: 15_000,
+    placeholderData: (previousData) => previousData,
   });
 }

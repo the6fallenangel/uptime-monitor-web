@@ -24,3 +24,11 @@ export interface Check {
   error: string;
   checkedAt: string;
 }
+
+export interface PaginatedChecks {
+  checks: Check[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}

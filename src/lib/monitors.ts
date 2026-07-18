@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import type { Check, Monitor } from "@/lib/types";
+import type { Monitor, PaginatedChecks } from "@/lib/types";
 
 export async function getMonitors() {
   const monitors = await api.get<Monitor[] | null>("/monitors");
@@ -32,6 +32,8 @@ export function deleteMonitor(id: number) {
   return api.delete<void>(`/monitors/${id}`);
 }
 
-export function getChecks(monitorId: number, limit = 50) {
-  return api.get<Check[]>(`/monitors/${monitorId}/checks?limit=${limit}`);
+export function getChecks(monitorId: number, page = 1, limit = 20) {
+  return api.get<PaginatedChecks>(
+    `/monitors/${monitorId}/checks?page=${page}&limit=${limit}`,
+  );
 }
