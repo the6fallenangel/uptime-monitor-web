@@ -11,11 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/user-avatar";
-import { useLogout } from "@/hooks/use-auth";
+import { useLogout, useMe } from "@/hooks/use-auth";
 import type { User } from "@/lib/types";
 import { LogOut } from "lucide-react";
 
 export function UserMenu({ initialUser }: { initialUser: User }) {
+  const { data: user = initialUser } = useMe({ initialData: initialUser });
+
   const logout = useLogout();
 
   return (
@@ -28,7 +30,7 @@ export function UserMenu({ initialUser }: { initialUser: User }) {
             size="icon"
             className="rounded-full"
           >
-            <UserAvatar user={initialUser} />
+            <UserAvatar user={user} />
           </Button>
         )}
       />
@@ -36,14 +38,12 @@ export function UserMenu({ initialUser }: { initialUser: User }) {
         <DropdownMenuGroup>
           <DropdownMenuLabel className="font-normal">
             <div className="flex items-center gap-2 py-1">
-              <UserAvatar user={initialUser} />
+              <UserAvatar user={user} />
 
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">
-                  {initialUser.name}
-                </p>
+                <p className="text-sm font-medium leading-none">{user.name}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {initialUser.email}
+                  {user.email}
                 </p>
               </div>
             </div>

@@ -22,10 +22,10 @@ export function ChecksTable({ checks }: { checks: Check[] }) {
           <TableRow>
             <TableHead>Status</TableHead>
             <TableHead>
-              Status <span className="hidden sm:flex">code</span>
+              Status <span className="hidden sm:inline">code</span>
             </TableHead>
             <TableHead>
-              Response <span className="hidden sm:flex">time</span>
+              Response <span className="hidden sm:inline">time</span>
             </TableHead>
             <TableHead>Checked</TableHead>
           </TableRow>

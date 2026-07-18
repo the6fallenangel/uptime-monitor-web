@@ -3,9 +3,9 @@
 import { CreateMonitorDialog } from "@/components/monitors/create-monitor-dialog";
 import { MonitorCard } from "@/components/monitors/monitor-card";
 import { MonitorCardSkeleton } from "@/components/monitors/monitor-card-skeleton";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { useMonitors } from "@/hooks/use-monitors";
-import { Activity } from "lucide-react";
-import { useEffect } from "react";
+import { Activity, AlertCircleIcon } from "lucide-react";
 
 export default function MonitorsPage() {
   const { data: monitors, isLoading, isError } = useMonitors();
@@ -31,9 +31,13 @@ export default function MonitorsPage() {
       )}
 
       {isError && (
-        <p className="text-sm text-destructive">
-          Failed to load monitors. Try refreshing the page.
-        </p>
+        <Alert variant="destructive" className="mb-2">
+          <AlertCircleIcon />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            Failed to load monitors. Try refreshing the page.
+          </AlertDescription>
+        </Alert>
       )}
 
       {monitors && monitors.length === 0 && (
