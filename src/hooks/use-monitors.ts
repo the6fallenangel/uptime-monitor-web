@@ -2,6 +2,7 @@ import {
   createMonitor,
   deleteMonitor,
   getChecks,
+  getMonitor,
   getMonitors,
 } from "@/lib/monitors";
 import type { Monitor } from "@/lib/types";
@@ -50,6 +51,21 @@ export function useLatestCheck(monitorId: number) {
     queryKey: ["checks", monitorId, "latest"],
     queryFn: () => getChecks(monitorId, 1),
     select: (checks) => checks[0] ?? null,
-    refetchInterval: 30_000,
+    refetchInterval: 15_000,
+  });
+}
+
+export function useMonitor(id: number) {
+  return useQuery({
+    queryKey: ["monitors", id],
+    queryFn: () => getMonitor(id),
+  });
+}
+
+export function useChecks(monitorId: number, limit = 50) {
+  return useQuery({
+    queryKey: ["checks", monitorId, limit],
+    queryFn: () => getChecks(monitorId, limit),
+    refetchInterval: 15_000,
   });
 }
