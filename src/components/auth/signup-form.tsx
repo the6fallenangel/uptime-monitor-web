@@ -1,5 +1,4 @@
 "use client";
-import { AuthCard } from "@/components/auth/auth-card";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -27,10 +26,7 @@ export function SignupForm() {
   }
 
   return (
-    <AuthCard
-      title="Create an account"
-      desc="Start monitoring your endpoints in minutes."
-    >
+    <div>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <FieldGroup>
           <Controller
@@ -108,6 +104,6 @@ export function SignupForm() {
           Sign in
         </Link>
       </p>
-    </AuthCard>
+    </div>
   );
 }
