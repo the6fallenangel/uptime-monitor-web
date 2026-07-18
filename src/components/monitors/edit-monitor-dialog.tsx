@@ -2,7 +2,6 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
 import { useUpdateMonitor } from "@/hooks/use-monitors";
 import { editMonitorSchema, type EditMonitorInput } from "@/lib/validation";
 import { ApiError } from "@/lib/api";
